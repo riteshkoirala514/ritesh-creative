@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "london-diaries",
+    "title": "London Diaries",
+    "description": "Stories, photos and moments from life in London.",
+    "image": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1200&q=80"
+  },
+  {
+    "slug": "nepal-diaries",
+    "title": "Nepal Diaries",
+    "description": "Going back to where it all started.",
+    "image": "https://images.unsplash.com/photo-1558799401-1dcba79834c2?w=1200&q=80"
+  }
+]
