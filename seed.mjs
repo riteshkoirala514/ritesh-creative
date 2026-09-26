@@ -72,6 +72,9 @@ const dreams = [
 for (const [text, cat] of dreams) db.run('INSERT INTO dreams (text, category) VALUES (?, ?)', [text, cat]);
 db.run("UPDATE dreams SET done = 1 WHERE text IN ('Walk the streets of Tokyo at 3 AM', 'Build this website')");
 
+// Set profile photo
+db.run("UPDATE profile SET photo = '/me.jpg' WHERE id = 1");
+
 // Save
 const data = db.export();
 fs.writeFileSync(DB_PATH, Buffer.from(data));
