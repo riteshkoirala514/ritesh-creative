@@ -44,8 +44,8 @@ export default async function Footer() {
           </div>
           <div>
             <p className="label text-text-primary mb-3">Connect</p>
-            {profile.social_links.length > 0 ? (
-              profile.social_links.map((link, i) => (
+            {(profile.social_links || []).length > 0 ? (
+              (profile.social_links || []).map((link, i) => (
                 link.url ? (
                   <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">
