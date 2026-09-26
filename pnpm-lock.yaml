@@ -29,6 +29,9 @@ importers:
       react-dom:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
+      sql.js:
+        specifier: ^1.14.2
+        version: 1.14.2
       three:
         specifier: ^0.186.1
         version: 0.186.1
@@ -2072,6 +2075,9 @@ packages:
 
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
+
+  sql.js@1.14.2:
+    resolution: {integrity: sha512-3ZGPovObMFrdw79zrUHbfdE/DLIsy8jdNdssmMSQuRAymedU6q84asPt0kgiqrdMYlPegDItiIMfmIXzZnYFcw==}
 
   stable-hash@0.0.5:
     resolution: {integrity: sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA==}
@@ -4486,6 +4492,8 @@ snapshots:
   source-map-js@1.2.1: {}
 
   sprintf-js@1.0.3: {}
+
+  sql.js@1.14.2: {}
 
   stable-hash@0.0.5: {}
 

@@ -3,9 +3,9 @@ import { getAllPosts, getAllSeries } from '@/lib/content';
 
 const BASE_URL = 'https://ritesh.creative';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts();
-  const series = getAllSeries();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getAllPosts();
+  const series = await getAllSeries();
 
   const postUrls = posts.map((post) => ({
     url: `${BASE_URL}/${post.category}/${post.slug}`,

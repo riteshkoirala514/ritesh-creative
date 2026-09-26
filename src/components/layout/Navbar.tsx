@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
@@ -47,7 +47,7 @@ export default function Navbar() {
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-bg-card transition-colors mr-1">
-            <Image src="/logo.png" alt="R" width={26} height={26} className="rounded-md" />
+            <img src="/logo.png" alt="R" className="w-7 h-7 rounded-md object-contain" />
           </Link>
 
           <div className="w-px h-6 bg-border mx-0.5" />
@@ -82,7 +82,7 @@ export default function Navbar() {
         {open ? (
           <span className="text-text-primary text-lg font-bold">✕</span>
         ) : (
-          <Image src="/logo.png" alt="Menu" width={28} height={28} className="rounded-lg" />
+          <img src="/logo.png" alt="Menu" className="w-7 h-7 rounded-lg object-contain" />
         )}
       </motion.button>
 
@@ -97,7 +97,7 @@ export default function Navbar() {
           >
             <div className="w-full max-w-xs px-6">
               <div className="flex items-center gap-3 mb-8 justify-center">
-                <Image src="/logo.png" alt="R" width={36} height={36} className="rounded-xl" />
+                <img src="/logo.png" alt="R" className="w-9 h-9 rounded-xl object-contain" />
                 <span className="text-text-primary text-xl font-extrabold tracking-tighter">
                   RITESH<span style={{ color: '#DC2626' }}>.</span>CREATIVE
                 </span>

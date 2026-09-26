@@ -27,7 +27,7 @@ export default function CategoryShowcase({ title, description, href, posts, layo
   const accentColor = color || '#FF4F1A';
 
   return (
-    <section className="max-w-[1400px] mx-auto px-6 pb-20">
+    <section className="max-w-[1400px] mx-auto px-6 pb-10">
       <div className="flex items-end justify-between mb-8">
         <div className="flex items-center gap-4">
           <div className="w-3 h-8 rounded-sm" style={{ backgroundColor: accentColor }} />

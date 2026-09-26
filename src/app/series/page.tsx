@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   description: 'Collections and ongoing stories.',
 };
 
-export default function SeriesPage() {
-  const allSeries = getAllSeries();
-  const seriesWithCounts = allSeries.map((s) => ({
+export default async function SeriesPage() {
+  const allSeries = await getAllSeries();
+  const seriesWithCounts = await Promise.all(allSeries.map(async (s) => ({
     series: s,
-    postCount: getPostsBySeries(s.slug).length,
-  }));
+    postCount: (await getPostsBySeries(s.slug)).length,
+  })));
 
   return <SeriesGrid items={seriesWithCounts} />;
 }

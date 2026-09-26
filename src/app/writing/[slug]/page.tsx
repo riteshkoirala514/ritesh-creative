@@ -10,20 +10,20 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug('writing', slug);
+  const post = await getPostBySlug('writing', slug);
   if (!post) return {};
   return { title: post.title, description: post.description, openGraph: { images: [post.thumbnail || post.image] } };
 }
 
-export function generateStaticParams() {
-  return getPostsByCategory('writing').map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getPostsByCategory('writing')).map((p) => ({ slug: p.slug }));
 }
 
 export default async function WritingArticle({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug('writing', slug);
+  const post = await getPostBySlug('writing', slug);
   if (!post) notFound();
-  const related = getRelatedPosts(slug, 'writing');
+  const related = await getRelatedPosts(slug, 'writing');
 
   return (
     <>

@@ -7,14 +7,50 @@ export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-16 md:py-24">
       <motion.header initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-14">
-        <div className="flex items-center gap-4 mb-8">
-          <Image src="/logo.png" alt="Ritesh" width={64} height={64} className="rounded-2xl" />
-          <motion.div animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3 }} className="text-3xl inline-block">👋</motion.div>
+        <div className="flex flex-col md:flex-row items-start gap-8 mb-10">
+          {/* Person photo — big with hologram */}
+          <motion.div
+            whileHover={{ rotateY: 10, rotateX: -5, scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 250, damping: 18 }}
+            style={{ perspective: 800, transformStyle: 'preserve-3d' }}
+            className="relative shrink-0"
+          >
+            <div className="absolute -inset-2 rounded-3xl bg-gradient-to-br from-[#FFD700]/20 via-[#DC2626]/20 to-[#C0C0C0]/20 blur-sm -z-20" />
+            <div className="absolute -inset-1.5 rounded-3xl border border-[#FFD700]/30 -z-10" style={{ transform: 'translateZ(-12px)' }} />
+            <div className="w-40 h-40 md:w-52 md:h-52 rounded-3xl overflow-hidden border-2 border-text-primary shadow-xl relative"
+              style={{ boxShadow: '0 0 30px rgba(255,215,0,0.12), 0 0 60px rgba(220,38,38,0.08)' }}>
+              <img
+                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+                alt="Ritesh Koirala"
+                className="w-full h-full object-cover"
+              />
+              <motion.div
+                animate={{
+                  background: [
+                    'linear-gradient(135deg, rgba(255,215,0,0.2) 0%, transparent 50%, rgba(220,38,38,0.15) 100%)',
+                    'linear-gradient(315deg, rgba(220,38,38,0.2) 0%, transparent 50%, rgba(192,192,192,0.15) 100%)',
+                    'linear-gradient(135deg, rgba(255,215,0,0.2) 0%, transparent 50%, rgba(220,38,38,0.15) 100%)',
+                  ],
+                }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+                className="absolute inset-0"
+              />
+              <motion.div
+                animate={{ y: ['-100%', '300%'] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'linear', repeatDelay: 1 }}
+                className="absolute inset-x-0 h-10 bg-gradient-to-b from-transparent via-white/10 to-transparent"
+              />
+            </div>
+          </motion.div>
+
+          <div className="flex-1">
+            <motion.div animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3 }} className="text-3xl inline-block mb-4">👋</motion.div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary tracking-tight leading-[1.05]">
+              I&apos;m <span className="gradient-text">Ritesh</span>.
+              <br />I like making things.
+            </h1>
+          </div>
         </div>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary tracking-tight leading-[1.05]">
-          I&apos;m <span className="gradient-text">Ritesh</span>.
-          <br />I like making things.
-        </h1>
       </motion.header>
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="space-y-5 text-[16px] leading-[1.8] text-text-secondary">

@@ -17,7 +17,7 @@ interface SeriesStripProps {
 
 export default function SeriesStrip({ series }: SeriesStripProps) {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 pb-20">
+    <section className="max-w-[1400px] mx-auto px-6 pb-10">
       <div className="flex items-center gap-4 mb-8">
         <h2 className="text-2xl font-extrabold tracking-tight text-text-primary">Series</h2>
         <div className="flex-1 editorial-divider" />

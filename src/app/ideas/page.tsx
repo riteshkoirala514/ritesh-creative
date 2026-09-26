@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: 'Technology, AI, products, business and things I\'m figuring out.',
 };
 
-export default function IdeasPage() {
-  const posts = getPostsByCategory('ideas');
+export default async function IdeasPage() {
+  const posts = await getPostsByCategory('ideas');
 
   return (
     <SectionPage

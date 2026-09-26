@@ -11,12 +11,12 @@ interface PostRendererProps {
   post: Post;
 }
 
-export default function PostRenderer({ post }: PostRendererProps) {
+export default async function PostRenderer({ post }: PostRendererProps) {
   // Resolve series data on the server
   let seriesData: { title: string; slug: string; posts: { slug: string; title: string; category: string }[] } | null = null;
   if (post.series) {
-    const series = getSeriesBySlug(post.series);
-    const seriesPosts = getPostsBySeries(post.series);
+    const series = await getSeriesBySlug(post.series);
+    const seriesPosts = await getPostsBySeries(post.series);
     if (series) {
       seriesData = {
         title: series.title,

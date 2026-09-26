@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Travel, cities, photographs and experiences.',
 };
 
-export default function PlacesPage() {
-  const places = getPostsByCategory('places');
+export default async function PlacesPage() {
+  const places = await getPostsByCategory('places');
   return <PlacesGrid places={places} />;
 }

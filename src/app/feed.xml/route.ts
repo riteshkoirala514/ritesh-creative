@@ -3,7 +3,7 @@ import { getAllPosts } from '@/lib/content';
 const BASE_URL = 'https://ritesh.creative';
 
 export async function GET() {
-  const posts = getAllPosts().slice(0, 50);
+  const posts = (await getAllPosts()).slice(0, 50);
 
   const items = posts.map((post) => `
     <item>
@@ -13,7 +13,7 @@ export async function GET() {
       <guid isPermaLink="true">${BASE_URL}/${post.category}/${post.slug}</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       <category>${post.category}</category>
-      ${post.image ? `<enclosure url="${post.image}" type="image/jpeg" />` : ''}
+      ${post.image ? `<enclosure url="${post.image.replace(/&/g, '&amp;')}" type="image/jpeg" />` : ''}
     </item>`).join('');
 
   const feed = `<?xml version="1.0" encoding="UTF-8"?>

@@ -6,12 +6,13 @@ import NewsletterCTA from '@/components/home/NewsletterCTA';
 import SeriesStrip from '@/components/home/SeriesStrip';
 import { getLatestPosts, getPostsByCategory, getAllSeries, getPostsBySeries } from '@/lib/content';
 
-export default function HomePage() {
-  const allPosts = getLatestPosts(12);
-  const latestPosts = getLatestPosts(8);
-  const peoplePosts = getPostsByCategory('people').slice(0, 4);
-  const placesPosts = getPostsByCategory('places').slice(0, 2);
-  const seriesData = getAllSeries().map((s) => ({ ...s, count: getPostsBySeries(s.slug).length }));
+export default async function HomePage() {
+  const allPosts = await getLatestPosts(12);
+  const latestPosts = await getLatestPosts(8);
+  const peoplePosts = (await getPostsByCategory('people')).slice(0, 4);
+  const placesPosts = (await getPostsByCategory('places')).slice(0, 2);
+  const allSeries = await getAllSeries();
+  const seriesData = await Promise.all(allSeries.map(async (s) => ({ ...s, count: (await getPostsBySeries(s.slug)).length })));
 
   return (
     <>

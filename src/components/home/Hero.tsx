@@ -32,7 +32,8 @@ const marqueeWords = [
 
 export default function Hero({ posts }: HeroProps) {
   const lead = posts[0];
-  const side = posts.slice(1, 5);
+  const secondFeature = posts[1];
+  const side = posts.slice(2, 6);
 
   return (
     <>
@@ -53,7 +54,7 @@ export default function Hero({ posts }: HeroProps) {
       </div>
 
       {/* Hero grid */}
-      <section className="max-w-[1400px] mx-auto px-6 pt-8 pb-16">
+      <section className="max-w-[1400px] mx-auto px-6 pt-5 pb-2">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Lead — 8 cols */}
           {lead && (
@@ -81,24 +82,45 @@ export default function Hero({ posts }: HeroProps) {
           )}
 
           {/* Sidebar — 4 cols */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
+          <div className="lg:col-span-4 flex flex-col gap-3">
+            {/* Second feature — image card with overlay */}
+            {secondFeature && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+              >
+                <Link href={`/${secondFeature.category}/${secondFeature.slug}`} className="group block relative rounded-xl overflow-hidden">
+                  <div className="aspect-[16/9]">
+                    <img src={secondFeature.image} alt={secondFeature.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                      <span className="label text-[9px]" style={{ color: categoryColors[secondFeature.category as Category] || '#FF4F1A' }}>{secondFeature.category}</span>
+                      <h3 className="text-base md:text-lg font-bold text-white mt-1 group-hover:text-[#FFD700] transition-colors leading-snug tracking-tight">{secondFeature.title}</h3>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            )}
+
+            {/* Remaining sidebar items */}
             {side.map((post, i) => (
               <motion.div
                 key={post.slug}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
+                transition={{ duration: 0.5, delay: 0.25 + i * 0.08 }}
               >
-                <Link href={`/${post.category}/${post.slug}`} className="group flex gap-4 items-center p-3 -mx-3 rounded-xl hover:bg-bg-card transition-colors">
-                  <div className="w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-bg-card">
+                <Link href={`/${post.category}/${post.slug}`} className="group flex gap-3 items-center p-2 -mx-2 rounded-xl hover:bg-bg-card transition-colors">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden shrink-0 bg-bg-card">
                     <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <span className="label text-[10px]" style={{ color: categoryColors[post.category as Category] || '#FF4F1A' }}>{post.category}</span>
-                    <h3 className="text-lg font-bold text-text-primary mt-1 group-hover:text-accent transition-colors leading-snug tracking-tight line-clamp-2">
+                    <span className="label text-[9px]" style={{ color: categoryColors[post.category as Category] || '#FF4F1A' }}>{post.category}</span>
+                    <h3 className="text-sm md:text-[15px] font-bold text-text-primary mt-0.5 group-hover:text-accent transition-colors leading-snug tracking-tight line-clamp-2">
                       {post.title}
                     </h3>
-                    <p className="text-text-secondary text-sm mt-1.5 line-clamp-2 leading-relaxed">{post.description}</p>
+                    <p className="text-text-secondary text-xs mt-1 line-clamp-1">{post.description}</p>
                   </div>
                 </Link>
               </motion.div>

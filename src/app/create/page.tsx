@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: 'Photography, video, design, experiments and other creative work.',
 };
 
-export default function CreatePage() {
-  const posts = getPostsByCategory('create');
+export default async function CreatePage() {
+  const posts = await getPostsByCategory('create');
 
   return (
     <SectionPage

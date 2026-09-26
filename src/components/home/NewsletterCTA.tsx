@@ -5,7 +5,7 @@ import NewsletterForm from '@/components/newsletter/NewsletterForm';
 
 export default function NewsletterCTA() {
   return (
-    <section className="max-w-[1400px] mx-auto px-6 pb-20">
+    <section className="max-w-[1400px] mx-auto px-6 pb-10">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

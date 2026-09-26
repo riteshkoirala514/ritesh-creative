@@ -1,46 +1,14 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { getProfile } from '@/lib/content';
 
-const marqueeWords = [
-  { text: 'WRITING', color: '#C0C0C0' },
-  { text: 'PEOPLE', color: '#FFD700' },
-  { text: 'PLACES', color: '#DC2626' },
-  { text: 'IDEAS', color: '#C0C0C0' },
-  { text: 'CREATE', color: '#FFD700' },
-  { text: 'PHOTOGRAPHY', color: '#DC2626' },
-  { text: 'VIDEO', color: '#C0C0C0' },
-  { text: 'STORIES', color: '#FFD700' },
-  { text: 'JOURNALS', color: '#DC2626' },
-];
-
-export default function Footer() {
-  const pathname = usePathname();
-  const isHome = pathname === '/';
+export default async function Footer() {
+  const profile = await getProfile();
 
   return (
     <footer className="pb-24 md:pb-6">
-      {/* Marquee — only on non-home pages */}
-      {!isHome && (
-        <div className="py-4 overflow-hidden border-t-2 border-b-2 border-text-primary">
-          <div className="animate-marquee whitespace-nowrap flex items-center">
-            {Array.from({ length: 3 }).map((_, rep) => (
-              <div key={rep} className="flex items-center shrink-0">
-                {marqueeWords.map((word, i) => (
-                  <div key={`${rep}-${i}`} className="flex items-center">
-                    <span className="text-4xl md:text-6xl font-extrabold tracking-tighter mx-3 select-none" style={{ color: word.color }}>{word.text}</span>
-                    <span className="text-2xl md:text-3xl mx-2 font-black select-none" style={{ color: '#DC2626' }}>●</span>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {isHome && <div className="border-t-2 border-text-primary" />}
+      {/* Marquee — shown via client wrapper */}
+      <FooterMarquee />
 
       <div className="max-w-[1400px] mx-auto px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -49,7 +17,7 @@ export default function Footer() {
               <Image src="/logo.png" alt="R" width={28} height={28} className="rounded" />
               <span className="text-sm font-extrabold tracking-tighter">RITESH<span style={{color:'#DC2626'}}>.</span>CREATIVE</span>
             </div>
-            <p className="text-text-secondary text-xs leading-relaxed max-w-[200px]">Stories, ideas & things worth sharing.</p>
+            <p className="text-text-secondary text-xs leading-relaxed max-w-[200px]">{profile.quote || 'Stories, ideas & things worth sharing.'}</p>
           </div>
           <div>
             <p className="label text-text-primary mb-3">Sections</p>
@@ -60,21 +28,38 @@ export default function Footer() {
           <div>
             <p className="label text-text-primary mb-3">More</p>
             <Link href="/series" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">Series</Link>
+            <Link href="/dreams" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">Dreams</Link>
             <Link href="/letters" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">Newsletter</Link>
             <Link href="/about" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">About</Link>
             <Link href="/feed.xml" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">RSS Feed</Link>
           </div>
           <div>
             <p className="label text-text-primary mb-3">Connect</p>
-            {['Instagram ↗', 'YouTube ↗', 'LinkedIn ↗'].map((s) => (
-              <a key={s} href="#" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">{s}</a>
-            ))}
+            {profile.instagram && (
+              <a href={profile.instagram} target="_blank" rel="noopener noreferrer" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">Instagram ↗</a>
+            )}
+            {profile.youtube && (
+              <a href={profile.youtube} target="_blank" rel="noopener noreferrer" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">YouTube ↗</a>
+            )}
+            {profile.linkedin && (
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">LinkedIn ↗</a>
+            )}
+            {!profile.instagram && !profile.youtube && !profile.linkedin && (
+              <>
+                <a href="#" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">Instagram ↗</a>
+                <a href="#" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">YouTube ↗</a>
+                <a href="#" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">LinkedIn ↗</a>
+              </>
+            )}
           </div>
         </div>
         <div className="mt-10 pt-6 border-t border-border text-xs text-text-secondary">
-          © {new Date().getFullYear()} Ritesh Koirala
+          © {new Date().getFullYear()} {profile.name}
         </div>
       </div>
     </footer>
   );
 }
+
+// Client component for marquee (needs usePathname)
+import { FooterMarquee } from './FooterMarquee';

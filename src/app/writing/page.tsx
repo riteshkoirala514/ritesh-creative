@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: 'Essays, opinions, observations and personal writing.',
 };
 
-export default function WritingPage() {
-  const posts = getPostsByCategory('writing');
+export default async function WritingPage() {
+  const posts = await getPostsByCategory('writing');
 
   return (
     <SectionPage

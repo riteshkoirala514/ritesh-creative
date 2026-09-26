@@ -1,3 +1,4 @@
+import { getDreams } from '@/lib/content';
 import DreamsContent from '@/components/dreams/DreamsContent';
 import type { Metadata } from 'next';
 
@@ -6,6 +7,9 @@ export const metadata: Metadata = {
   description: 'Things I want to do, places I want to go, stuff I want to build.',
 };
 
-export default function DreamsPage() {
-  return <DreamsContent />;
+export const dynamic = 'force-dynamic';
+
+export default async function DreamsPage() {
+  const dreams = await getDreams();
+  return <DreamsContent dreams={dreams} />;
 }

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Conversations, interviews and stories about people.',
 };
 
-export default function PeoplePage() {
-  const people = getPostsByCategory('people');
+export default async function PeoplePage() {
+  const people = await getPostsByCategory('people');
   return <PeopleGrid people={people} />;
 }

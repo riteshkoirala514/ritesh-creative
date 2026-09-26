@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Inter } from 'next/font/google';
-import TopBar from '@/components/layout/TopBar';
+import TopBarWrapper from '@/components/layout/TopBarWrapper';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import BackgroundBlobs from '@/components/ui/BackgroundBlobs';
+import ParticleCursor from '@/components/ui/ParticleCursor';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -36,7 +37,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <body className="min-h-full flex flex-col bg-bg text-text-primary">
         <BackgroundBlobs />
-        <TopBar />
+        <ParticleCursor />
+        <TopBarWrapper />
         <main className="flex-1">{children}</main>
         <Footer />
         <Navbar />

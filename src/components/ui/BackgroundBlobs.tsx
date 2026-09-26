@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Stars } from '@react-three/drei';
+import { Environment, Stars, Text, Grid } from '@react-three/drei';
 import { useRef, Suspense, useState, useEffect, useMemo, Component, ReactNode } from 'react';
 import * as THREE from 'three';
 
@@ -64,7 +64,7 @@ function OrbitLine({ radius, tilt = 0 }: { radius: number; tilt?: number }) {
   return (
     <line>
       <primitive object={geom} attach="geometry" />
-      <lineBasicMaterial color="#ffffff" transparent opacity={0.04} />
+      <lineBasicMaterial color="#ffffff" transparent opacity={0.1} />
     </line>
   );
 }
@@ -324,9 +324,48 @@ function getSceneType(section: string): string {
   return 'universe';
 }
 
+const SCENE_LABELS: Record<string, string> = {
+  universe: 'UNIVERSE',
+  network: 'NEURAL NETWORK',
+  terrain: 'TERRAIN',
+  helix: 'CONNECTIONS',
+  dreams: 'DREAMS',
+};
+
 function SceneContent({ type }: { type: string }) {
+  const label = SCENE_LABELS[type] || '';
   return (
     <>
+      {/* 3D Grid floor */}
+      <Grid
+        position={[0, -3, 0]}
+        args={[30, 30]}
+        cellSize={0.8}
+        cellThickness={0.5}
+        cellColor="#FFD700"
+        sectionSize={4}
+        sectionThickness={1}
+        sectionColor="#DC2626"
+        fadeDistance={25}
+        fadeStrength={1.5}
+        infiniteGrid
+      />
+
+      {/* Scene label — faint, large, behind everything */}
+      {label && (
+        <Text
+          position={[0, 3.5, -8]}
+          fontSize={2.5}
+          color="#FFD700"
+          anchorX="center"
+          anchorY="middle"
+          fillOpacity={0.04}
+          letterSpacing={0.15}
+        >
+          {label}
+        </Text>
+      )}
+
       {type === 'universe' && <UniverseScene />}
       {type === 'network' && <NetworkScene />}
       {type === 'terrain' && <TerrainScene />}

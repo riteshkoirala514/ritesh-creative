@@ -22,8 +22,8 @@ export default function LatestFeed({ posts }: LatestFeedProps) {
   if (posts.length === 0) return null;
 
   return (
-    <section className="max-w-[1400px] mx-auto px-6 pb-20">
-      <div className="flex items-center gap-4 mb-8">
+    <section className="max-w-[1400px] mx-auto px-6 pt-4 pb-10">
+      <div className="flex items-center gap-4 mb-6">
         <h2 className="text-2xl font-extrabold tracking-tight text-text-primary">Latest</h2>
         <div className="flex-1 editorial-divider" />
       </div>
