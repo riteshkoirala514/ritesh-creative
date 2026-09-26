@@ -30,4 +30,4 @@ export {
   initDatabase,
 } from './db';
 
-export type { Dream, Profile } from './db';
+export type { Dream, Profile, SocialLink } from './db';

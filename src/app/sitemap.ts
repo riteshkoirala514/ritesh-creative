@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllPosts, getAllSeries } from '@/lib/content';
 
-const BASE_URL = 'https://ritesh.creative';
+const BASE_URL = 'https://ritesh.win';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getAllPosts();

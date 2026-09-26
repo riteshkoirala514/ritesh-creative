@@ -19,8 +19,9 @@ const navLinks = [
   { href: '/about', label: 'About' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ brandName = 'RITESH.CREATIVE', quote = '' }: { brandName?: string; quote?: string }) {
   const pathname = usePathname();
+  const bp = brandName.split('.');
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const { scrollY } = useScroll();
@@ -99,7 +100,7 @@ export default function Navbar() {
               <div className="flex items-center gap-3 mb-8 justify-center">
                 <img src="/logo.png" alt="R" className="w-9 h-9 rounded-xl object-contain" />
                 <span className="text-text-primary text-xl font-extrabold tracking-tighter">
-                  RITESH<span style={{ color: '#DC2626' }}>.</span>CREATIVE
+                  {bp[0]}<span style={{ color: '#DC2626' }}>.</span>{bp.slice(1).join('.')}
                 </span>
               </div>
 
@@ -127,7 +128,7 @@ export default function Navbar() {
               </div>
 
               <p className="text-text-secondary text-xs font-bold italic text-center mt-8">
-                &ldquo;The most interesting things happen when you stay curious.&rdquo;
+{quote ? `\u201C${quote}\u201D` : ''}
               </p>
             </div>
           </motion.div>

@@ -2,16 +2,24 @@
 
 import { motion } from 'framer-motion';
 
+interface SocialLink { platform: string; url: string; label: string; }
 interface Profile {
   name: string;
   tagline: string;
   quote: string;
   bio: string;
   photo: string;
+  social_links: SocialLink[];
   instagram: string;
   youtube: string;
   linkedin: string;
 }
+
+const PLATFORM_ICONS: Record<string, string> = {
+  instagram: '📸', youtube: '🎬', linkedin: '💼', twitter: '𝕏', tiktok: '🎵',
+  github: '💻', website: '🌐', email: '✉️', facebook: '👤', pinterest: '📌',
+  spotify: '🎧', medium: '📝', behance: '🎨', dribbble: '🏀', threads: '🧵', other: '🔗',
+};
 
 export default function AboutContent({ profile }: { profile: Profile }) {
   const photoUrl = profile.photo || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80';
@@ -72,7 +80,7 @@ export default function AboutContent({ profile }: { profile: Profile }) {
       )}
 
       {/* Contact */}
-      {(profile.instagram || profile.youtube || profile.linkedin) && (
+      {profile.social_links.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
           className="mt-14 p-8 rounded-2xl relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF4F1A, #DC2626)' }}>
           <div className="noise absolute inset-0" />
@@ -80,15 +88,12 @@ export default function AboutContent({ profile }: { profile: Profile }) {
             <h3 className="text-xl font-bold text-white mb-2">Let&apos;s talk 💬</h3>
             <p className="text-sm text-white/70 leading-relaxed">I&apos;m always up for a good conversation.</p>
             <div className="flex flex-wrap gap-3 mt-6">
-              {profile.instagram && (
-                <a href={profile.instagram} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/20 text-white text-sm font-bold rounded-full hover:bg-white/30 transition-colors">📸 Instagram</a>
-              )}
-              {profile.youtube && (
-                <a href={profile.youtube} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/20 text-white text-sm font-bold rounded-full hover:bg-white/30 transition-colors">🎬 YouTube</a>
-              )}
-              {profile.linkedin && (
-                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/20 text-white text-sm font-bold rounded-full hover:bg-white/30 transition-colors">💼 LinkedIn</a>
-              )}
+              {profile.social_links.filter(l => l.url).map((link, i) => (
+                <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white/20 text-white text-sm font-bold rounded-full hover:bg-white/30 transition-colors flex items-center gap-1.5">
+                  <span>{PLATFORM_ICONS[link.platform] || '🔗'}</span> {link.label}
+                </a>
+              ))}
             </div>
           </div>
         </motion.div>

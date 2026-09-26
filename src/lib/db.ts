@@ -46,9 +46,12 @@ function initTables(db: any) {
   db.run(`CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE NOT NULL, title TEXT NOT NULL, description TEXT DEFAULT '', content TEXT DEFAULT '', date TEXT DEFAULT '', category TEXT NOT NULL, format TEXT DEFAULT 'article', image TEXT DEFAULT '', thumbnail TEXT, images TEXT, video TEXT, featured INTEGER DEFAULT 0, draft INTEGER DEFAULT 0, series_slug TEXT, tags TEXT, read_time TEXT, role TEXT, location TEXT, connection TEXT, people_type TEXT DEFAULT 'network', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT DEFAULT CURRENT_TIMESTAMP)`);
   db.run(`CREATE TABLE IF NOT EXISTS dreams (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT NOT NULL, category TEXT NOT NULL DEFAULT 'life', done INTEGER DEFAULT 0, image TEXT, notes TEXT, created_at TEXT DEFAULT CURRENT_TIMESTAMP)`);
   db.run(`CREATE TABLE IF NOT EXISTS series (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT UNIQUE NOT NULL, title TEXT NOT NULL, description TEXT DEFAULT '', image TEXT DEFAULT '')`);
-  db.run(`CREATE TABLE IF NOT EXISTS profile (id INTEGER PRIMARY KEY DEFAULT 1, name TEXT DEFAULT 'Ritesh Koirala', tagline TEXT DEFAULT 'Writer · Creator · Explorer', quote TEXT DEFAULT 'The most interesting things happen when you stay curious.', bio TEXT DEFAULT '', photo TEXT DEFAULT '', instagram TEXT DEFAULT '', youtube TEXT DEFAULT '', linkedin TEXT DEFAULT '')`);
+  db.run(`CREATE TABLE IF NOT EXISTS profile (id INTEGER PRIMARY KEY DEFAULT 1, name TEXT DEFAULT 'Ritesh Koirala', tagline TEXT DEFAULT 'Writer · Creator · Explorer', quote TEXT DEFAULT 'The most interesting things happen when you stay curious.', bio TEXT DEFAULT '', photo TEXT DEFAULT '', brand_name TEXT DEFAULT 'RITESH.CREATIVE', social_links TEXT DEFAULT '[]', instagram TEXT DEFAULT '', youtube TEXT DEFAULT '', linkedin TEXT DEFAULT '')`);
   db.run(`CREATE TABLE IF NOT EXISTS subscribers (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT UNIQUE NOT NULL, created_at TEXT DEFAULT CURRENT_TIMESTAMP)`);
   db.run(`INSERT OR IGNORE INTO profile (id) VALUES (1)`);
+  // Migrations — add columns if they don't exist
+  try { db.run(`ALTER TABLE profile ADD COLUMN brand_name TEXT DEFAULT 'RITESH.CREATIVE'`); } catch { /* already exists */ }
+  try { db.run(`ALTER TABLE profile ADD COLUMN social_links TEXT DEFAULT '[]'`); } catch { /* already exists */ }
   saveDb();
 }
 
@@ -135,12 +138,22 @@ export async function toggleDream(id: number) { await initSql(); runSql('UPDATE 
 export async function deleteDream(id: number) { await initSql(); runSql('DELETE FROM dreams WHERE id = ?', [id]); }
 
 // Profile
-export interface Profile { name: string; tagline: string; quote: string; bio: string; photo: string; instagram: string; youtube: string; linkedin: string; }
+export interface SocialLink { platform: string; url: string; label: string; }
+export interface Profile { name: string; tagline: string; quote: string; bio: string; photo: string; brand_name: string; social_links: SocialLink[]; instagram: string; youtube: string; linkedin: string; }
 export async function getProfile(): Promise<Profile> {
   await initSql();
   const row = queryOne('SELECT * FROM profile WHERE id = 1');
-  if (!row) return { name: 'Ritesh Koirala', tagline: 'Writer · Creator · Explorer', quote: 'The most interesting things happen when you stay curious.', bio: '', photo: '', instagram: '', youtube: '', linkedin: '' };
-  return { name: (row.name as string) || 'Ritesh Koirala', tagline: (row.tagline as string) || '', quote: (row.quote as string) || '', bio: (row.bio as string) || '', photo: (row.photo as string) || '', instagram: (row.instagram as string) || '', youtube: (row.youtube as string) || '', linkedin: (row.linkedin as string) || '' };
+  const defaults: Profile = { name: 'Ritesh Koirala', tagline: 'Writer · Creator · Explorer', quote: 'The most interesting things happen when you stay curious.', bio: '', photo: '', brand_name: 'RITESH.CREATIVE', social_links: [], instagram: '', youtube: '', linkedin: '' };
+  if (!row) return defaults;
+  let socialLinks: SocialLink[] = [];
+  try { socialLinks = row.social_links ? JSON.parse(row.social_links as string) : []; } catch { socialLinks = []; }
+  // Merge old instagram/youtube/linkedin into social_links if social_links is empty
+  if (socialLinks.length === 0) {
+    if (row.instagram) socialLinks.push({ platform: 'instagram', url: row.instagram as string, label: 'Instagram' });
+    if (row.youtube) socialLinks.push({ platform: 'youtube', url: row.youtube as string, label: 'YouTube' });
+    if (row.linkedin) socialLinks.push({ platform: 'linkedin', url: row.linkedin as string, label: 'LinkedIn' });
+  }
+  return { name: (row.name as string) || defaults.name, tagline: (row.tagline as string) || defaults.tagline, quote: (row.quote as string) || defaults.quote, bio: (row.bio as string) || '', photo: (row.photo as string) || '', brand_name: (row.brand_name as string) || defaults.brand_name, social_links: socialLinks, instagram: (row.instagram as string) || '', youtube: (row.youtube as string) || '', linkedin: (row.linkedin as string) || '' };
 }
 export async function updateProfile(data: Partial<Profile>) { await initSql(); const f = Object.keys(data).map(k => `${k} = ?`).join(', '); runSql(`UPDATE profile SET ${f} WHERE id = 1`, Object.values(data)); }
 

@@ -4,13 +4,14 @@ import CategoryShowcase from '@/components/home/CategoryShowcase';
 import PeopleStrip from '@/components/home/PeopleStrip';
 import NewsletterCTA from '@/components/home/NewsletterCTA';
 import SeriesStrip from '@/components/home/SeriesStrip';
-import { getLatestPosts, getPostsByCategory, getAllSeries, getPostsBySeries } from '@/lib/content';
+import { getLatestPosts, getPostsByCategory, getAllSeries, getPostsBySeries, getProfile } from '@/lib/content';
 
 export default async function HomePage() {
   const allPosts = await getLatestPosts(12);
   const latestPosts = await getLatestPosts(8);
   const peoplePosts = (await getPostsByCategory('people')).slice(0, 4);
   const placesPosts = (await getPostsByCategory('places')).slice(0, 2);
+  const profile = await getProfile();
   const allSeries = await getAllSeries();
   const seriesData = await Promise.all(allSeries.map(async (s) => ({ ...s, count: (await getPostsBySeries(s.slug)).length })));
 
@@ -21,7 +22,7 @@ export default async function HomePage() {
       {seriesData.length > 0 && <SeriesStrip series={seriesData} />}
       <PeopleStrip people={peoplePosts} />
       <CategoryShowcase title="Places" description="The world through my lens." href="/places" posts={placesPosts} layout="landscape" color="#1D4ED8" />
-      <NewsletterCTA />
+      <NewsletterCTA name={profile.name.split(' ')[0]} />
     </>
   );
 }

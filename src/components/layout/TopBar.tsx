@@ -10,6 +10,7 @@ interface Profile {
   tagline: string;
   quote: string;
   photo: string;
+  brand_name: string;
 }
 
 export default function TopBar({ profile }: { profile: Profile }) {
@@ -17,6 +18,7 @@ export default function TopBar({ profile }: { profile: Profile }) {
   const isHome = pathname === '/';
   const photoUrl = profile.photo || '';
   const initials = profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'RC';
+  const brandParts = (profile.brand_name || 'RITESH.CREATIVE').split('.');
 
   if (!isHome) {
     // ===== COMPACT BAR for non-home pages =====
@@ -29,7 +31,7 @@ export default function TopBar({ profile }: { profile: Profile }) {
               <Link href="/" className="flex items-center gap-2.5 shrink-0">
                 <Image src="/logo.png" alt={profile.name} width={32} height={32} className="rounded-lg border-2 border-text-primary" />
                 <span className="text-base md:text-xl font-extrabold tracking-tighter text-text-primary leading-none">
-                  RITESH<span style={{ color: '#DC2626' }}>.</span>CREATIVE
+                  {brandParts[0]}<span style={{ color: '#DC2626' }}>.</span>{brandParts.slice(1).join('.')}
                 </span>
               </Link>
 
@@ -81,7 +83,7 @@ export default function TopBar({ profile }: { profile: Profile }) {
               </Link>
               <div className="min-w-0">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tighter text-text-primary leading-none">
-                  RITESH<span style={{ color: '#DC2626' }}>.</span>CREATIVE
+                  {brandParts[0]}<span style={{ color: '#DC2626' }}>.</span>{brandParts.slice(1).join('.')}
                 </h1>
                 <p className="text-[10px] sm:text-xs md:text-sm text-text-secondary font-medium mt-0.5">
                   {profile.tagline}

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Inter } from 'next/font/google';
 import TopBarWrapper from '@/components/layout/TopBarWrapper';
-import Navbar from '@/components/layout/Navbar';
+import NavbarWrapper from '@/components/layout/NavbarWrapper';
 import Footer from '@/components/layout/Footer';
 import BackgroundBlobs from '@/components/ui/BackgroundBlobs';
 import ParticleCursor from '@/components/ui/ParticleCursor';
@@ -20,14 +20,20 @@ const inter = Inter({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: 'ritesh.creative — Stories, ideas & things worth sharing',
-    template: '%s — ritesh.creative',
-  },
-  description:
-    'A personal creative journal by Ritesh Koirala. Writing, photography, people, places, ideas and things worth sharing.',
-};
+import { getProfile } from '@/lib/content';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const profile = await getProfile();
+  const brand = profile.brand_name || 'ritesh.creative';
+  return {
+    title: {
+      default: `${brand} — ${profile.quote || 'Stories, ideas & things worth sharing'}`,
+      template: `%s — ${brand}`,
+    },
+    description: `A personal creative journal by ${profile.name}. Writing, photography, people, places, ideas and things worth sharing.`,
+    icons: { icon: '/logo.png', apple: '/logo.png' },
+  };
+}
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
@@ -41,7 +47,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <TopBarWrapper />
         <main className="flex-1">{children}</main>
         <Footer />
-        <Navbar />
+        <NavbarWrapper />
       </body>
     </html>
   );
