@@ -45,11 +45,7 @@ export default async function Footer() {
               <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">LinkedIn ↗</a>
             )}
             {!profile.instagram && !profile.youtube && !profile.linkedin && (
-              <>
-                <a href="#" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">Instagram ↗</a>
-                <a href="#" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">YouTube ↗</a>
-                <a href="#" className="block text-sm text-text-secondary hover:text-accent transition-colors mb-1.5">LinkedIn ↗</a>
-              </>
+              <p className="text-xs text-text-secondary/40 italic">Set social links in admin</p>
             )}
           </div>
         </div>

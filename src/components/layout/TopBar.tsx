@@ -15,7 +15,8 @@ interface Profile {
 export default function TopBar({ profile }: { profile: Profile }) {
   const pathname = usePathname();
   const isHome = pathname === '/';
-  const photoUrl = profile.photo || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&q=80';
+  const photoUrl = profile.photo || '';
+  const initials = profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'RC';
 
   if (!isHome) {
     // ===== COMPACT BAR for non-home pages =====
@@ -47,7 +48,13 @@ export default function TopBar({ profile }: { profile: Profile }) {
               <div className="shrink-0 relative">
                 <div className="w-9 h-9 md:w-11 md:h-11 rounded-lg overflow-hidden border-2 border-text-primary"
                   style={{ boxShadow: '0 0 8px rgba(255,215,0,0.08)' }}>
-                  <img src={photoUrl} alt={profile.name} className="w-full h-full object-cover" />
+                  {photoUrl ? (
+                      <img src={photoUrl} alt={profile.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[#FFD700] to-[#DC2626] flex items-center justify-center">
+                        <span className="text-white font-extrabold text-lg">{initials}</span>
+                      </div>
+                    )}
                 </div>
                 <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green border-2 border-bg" />
               </div>
@@ -108,7 +115,13 @@ export default function TopBar({ profile }: { profile: Profile }) {
 
                   <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 lg:w-36 md:h-28 lg:h-36 rounded-xl md:rounded-2xl overflow-hidden border-2 border-text-primary relative"
                     style={{ boxShadow: '0 0 30px rgba(255,215,0,0.15), 0 0 60px rgba(220,38,38,0.1), 0 8px 32px rgba(0,0,0,0.15)' }}>
-                    <img src={photoUrl} alt={profile.name} className="w-full h-full object-cover" />
+                    {photoUrl ? (
+                      <img src={photoUrl} alt={profile.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[#FFD700] to-[#DC2626] flex items-center justify-center">
+                        <span className="text-white font-extrabold text-lg">{initials}</span>
+                      </div>
+                    )}
 
                     <motion.div animate={{ background: [
                       'linear-gradient(0deg, rgba(255,215,0,0.25) 0%, transparent 40%, rgba(220,38,38,0.2) 100%)',

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const adminLinks = [
   { href: '/admin', label: 'Dashboard', icon: '📊' },
@@ -14,6 +14,15 @@ const adminLinks = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Don't show admin chrome on login page
+  if (pathname === '/admin/login') return <>{children}</>;
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/admin/login');
+  };
 
   return (
     <div className="min-h-screen bg-bg-card">
@@ -23,7 +32,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-3">
             <span className="text-sm font-extrabold tracking-tighter">RITESH<span className="text-[#DC2626]">.</span>ADMIN</span>
           </div>
-          <Link href="/" className="text-xs text-white/50 hover:text-white transition-colors">← Back to site</Link>
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-xs text-white/50 hover:text-white transition-colors">← Site</Link>
+            <button onClick={handleLogout} className="text-xs text-white/50 hover:text-red-400 transition-colors">Logout</button>
+          </div>
         </div>
       </div>
 
